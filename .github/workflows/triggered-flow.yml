@@ -2,8 +2,7 @@ name: Triggering workflows
 on:
     workflow_run:
       workflows: [Actions practice]
-      types: [completed]    
-      branches: [training]
+      types: [completed]
 
 jobs:
   on-success:
