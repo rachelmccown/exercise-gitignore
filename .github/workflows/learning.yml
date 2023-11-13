@@ -1,0 +1,41 @@
+# This defines the name of the workflow as it will appear in the "Actions" tab of the GitHub repository.
+name: 'Actions practice'
+
+# The `on` key lets you define the events that trigger when the workflow is run. You can define multiple events here. For more information, see "[AUTOTITLE](/actions/using-workflows/triggering-a-workflow#using-events-to-trigger-workflows)."
+# Add the `workflow_dispatch` event if you want to be able to manually run this workflow from the UI. For more information, see [`workflow_dispatch`](/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch).
+on:
+    workflow_dispatch:
+        inputs:
+          logLevel:
+            description: 'Log level'
+            required: true
+            default: 'warning'
+            type: choice
+            options:
+            - info
+            - warning
+            - debug
+          tags:
+            description: 'Test scenario tags'
+            required: false
+            type: boolean
+          environment:
+            description: 'Environment to run tests against'
+            type: environment
+            required: true 
+    push:
+        branches:
+        - training
+
+jobs:
+    log-the-inputs:
+      runs-on: ubuntu-latest
+      steps:
+        - run: |
+            echo "Log level: $LEVEL"
+            echo "Tags: $TAGS"
+            echo "Environment: $ENVIRONMENT"
+          env:
+            LEVEL: ${{ inputs.logLevel }}
+            TAGS: ${{ inputs.tags }}
+            ENVIRONMENT: ${{ inputs.environment }}
